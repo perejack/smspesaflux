@@ -1,7 +1,7 @@
 {
   "name": "taka-money-reminder-system",
   "version": "1.0.0",
-  "description": "Garbage collection business reminder system with automated SMS/WhatsApp notifications",
+  "description": "Garbage collection business reminder system with automated SMS notifications",
   "private": true,
   "scripts": {
     "dev": "vite",

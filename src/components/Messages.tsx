@@ -10,7 +10,6 @@ export const Messages: React.FC = () => {
   const { clients, messages, addMessage, updateMessage, templates } = useStore();
   const [selectedClients, setSelectedClients] = useState<string[]>([]);
   const [messageType, setMessageType] = useState<'invoice' | 'receipt' | 'dunning' | 'general'>('general');
-  const [channel, setChannel] = useState<'sms' | 'whatsapp'>('sms');
   const [messageContent, setMessageContent] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [sending, setSending] = useState(false);
@@ -60,7 +59,7 @@ export const Messages: React.FC = () => {
         addMessage({
           clientId: client.id,
           type: messageType,
-          channel: channel,
+          channel: 'sms',
           content: personalizedMessage,
           status: 'pending',
         });
@@ -69,7 +68,7 @@ export const Messages: React.FC = () => {
         const result = await smsService.sendSMS({
           phone: client.phone,
           message: personalizedMessage,
-          channel: channel,
+          channel: 'sms',
         });
 
         // Update message status
@@ -119,7 +118,7 @@ export const Messages: React.FC = () => {
       
       <div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">Send Messages</h2>
-        <p className="text-sm sm:text-base text-gray-600">Send SMS or WhatsApp messages to your clients</p>
+        <p className="text-sm sm:text-base text-gray-600">Send SMS messages to your clients</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
@@ -144,29 +143,9 @@ export const Messages: React.FC = () => {
 
             <div>
               <label className="label">Channel</label>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setChannel('sms')}
-                  className={cn(
-                    'flex-1 py-2 px-4 rounded-lg border-2 transition-all',
-                    channel === 'sms'
-                      ? 'border-primary-500 bg-primary-50 text-primary-700'
-                      : 'border-gray-200 hover:border-gray-300'
-                  )}
-                >
-                  SMS
-                </button>
-                <button
-                  onClick={() => setChannel('whatsapp')}
-                  className={cn(
-                    'flex-1 py-2 px-4 rounded-lg border-2 transition-all',
-                    channel === 'whatsapp'
-                      ? 'border-green-500 bg-green-50 text-green-700'
-                      : 'border-gray-200 hover:border-gray-300'
-                  )}
-                >
-                  WhatsApp
-                </button>
+              <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-700 font-medium">📱 SMS Only</p>
+                <p className="text-xs text-blue-600 mt-1">All messages will be sent via SMS</p>
               </div>
             </div>
 

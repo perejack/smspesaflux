@@ -142,34 +142,28 @@ class SchedulerService {
           // Replace variables in template
           const personalizedMessage = this.replaceVariables(reminder.template, client);
 
-          // Determine channel
-          const channels: ('sms' | 'whatsapp')[] =
-            reminder.channel === 'both' ? ['sms'] : [reminder.channel];
+          // Add message to store
+          addMessage({
+            clientId: client.id,
+            type: reminder.type,
+            channel: 'sms',
+            content: personalizedMessage,
+            status: 'pending',
+          });
 
-          for (const channel of channels) {
-            // Add message to store
-            addMessage({
-              clientId: client.id,
-              type: reminder.type,
-              channel: channel,
-              content: personalizedMessage,
-              status: 'pending',
-            });
+          // Send the message via SMS
+          const result = await smsService.sendSMS({
+            phone: client.phone,
+            message: personalizedMessage,
+            channel: 'sms',
+          });
 
-            // Send the message
-            const result = await smsService.sendSMS({
-              phone: client.phone,
-              message: personalizedMessage,
-              channel: channel,
-            });
+          console.log(
+            `Automated reminder sent to ${client.name} via SMS: ${result.success ? 'success' : 'failed'}`
+          );
 
-            console.log(
-              `Automated reminder sent to ${client.name} via ${channel}: ${result.success ? 'success' : 'failed'}`
-            );
-
-            // Small delay between messages
-            await new Promise((resolve) => setTimeout(resolve, 500));
-          }
+          // Small delay between messages
+          await new Promise((resolve) => setTimeout(resolve, 500));
         } catch (error) {
           console.error(`Error sending automated reminder to ${client.name}:`, error);
         }

@@ -14,7 +14,7 @@ export interface Message {
   id: string;
   clientId: string;
   type: 'invoice' | 'receipt' | 'dunning' | 'general';
-  channel: 'sms' | 'whatsapp';
+  channel: 'sms';
   content: string;
   status: 'pending' | 'sent' | 'failed' | 'scheduled';
   scheduledFor?: Date;
@@ -26,7 +26,7 @@ export interface AutomatedReminder {
   id: string;
   name: string;
   type: 'invoice' | 'receipt' | 'dunning' | 'general';
-  channel: 'sms' | 'whatsapp' | 'both';
+  channel: 'sms';
   template: string;
   enabled: boolean;
   selectedClients?: string[]; // Array of client IDs to send to

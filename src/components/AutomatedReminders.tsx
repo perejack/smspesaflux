@@ -12,7 +12,7 @@ export const AutomatedReminders: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     type: 'general' as 'invoice' | 'receipt' | 'dunning' | 'general',
-    channel: 'sms' as 'sms' | 'whatsapp' | 'both',
+    channel: 'sms' as 'sms',
     template: '',
     enabled: true,
     selectedClients: [] as string[],
@@ -260,16 +260,11 @@ export const AutomatedReminders: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="label">Channel *</label>
-                  <select
-                    value={formData.channel}
-                    onChange={(e) => setFormData({ ...formData, channel: e.target.value as any })}
-                    className="input"
-                  >
-                    <option value="sms">SMS Only</option>
-                    <option value="whatsapp">WhatsApp Only</option>
-                    <option value="both">Both SMS & WhatsApp</option>
-                  </select>
+                  <label className="label">Channel</label>
+                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p className="text-sm text-blue-700 font-medium">📱 SMS Only</p>
+                    <p className="text-xs text-blue-600 mt-1">All reminders will be sent via SMS</p>
+                  </div>
                 </div>
               </div>
 

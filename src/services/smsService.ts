@@ -8,7 +8,7 @@ const FUNCTIONS_BASE_URL = '/.netlify/functions';
 export interface SendSMSParams {
   phone: string;
   message: string;
-  channel?: 'sms' | 'whatsapp';
+  channel?: 'sms';
 }
 
 export interface SendSMSResponse {

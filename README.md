@@ -1,12 +1,12 @@
 # Taka Money - Garbage Collection Reminder System
 
-A modern, interactive web application for managing garbage collection business with automated SMS/WhatsApp reminder functionality.
+A modern, interactive web application for managing garbage collection business with automated SMS reminder functionality.
 
 ## Features
 
 ### 🎯 Core Functionality
 - **Client Management**: Add, edit, and manage client information
-- **Message Sending**: Send SMS or WhatsApp messages to individual or multiple clients
+- **Message Sending**: Send SMS messages to individual or multiple clients
 - **Automated Reminders**: Set up automatic reminders for various scenarios
 - **Message Templates**: Create reusable message templates with variables
 - **Dashboard Analytics**: Monitor business performance and client communications
@@ -22,7 +22,7 @@ A modern, interactive web application for managing garbage collection business w
 - **Scheduled Sending**: Schedule messages for specific times
 - **Recurring Messages**: Set up weekly reminders on specific days
 - **Conditional Triggers**: Send based on client status and balance
-- **Multi-channel Support**: Send via SMS, WhatsApp, or both
+- **SMS Delivery**: Reliable SMS delivery through FluxSMS API
 
 ## Technology Stack
 
@@ -68,8 +68,7 @@ A modern, interactive web application for managing garbage collection business w
 ### Sending Messages
 1. Go to the **Messages** tab
 2. Select message type (Invoice, Receipt, Dunning, or General)
-3. Choose channel (SMS or WhatsApp)
-4. Optionally select a template
+3. Optionally select a template
 5. Compose your message using variables:
    - `{name}` - Client name
    - `{amount}` - Balance amount
@@ -104,7 +103,7 @@ The application uses the FluxSMS API for sending messages:
 
 - **Base URL**: `https://api.pesaflux.co.ke/fluxsms`
 - **Endpoints**:
-  - `POST /send` - Send SMS/WhatsApp message
+  - `POST /send` - Send SMS message
   - `GET /balance` - Check account balance
 
 ### Phone Number Format
