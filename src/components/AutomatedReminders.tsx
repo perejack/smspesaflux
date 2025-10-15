@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Power, Clock, Calendar } from 'lucide-react';
+import { Plus, Edit2, Trash2, Power, Clock, Calendar, Bell } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { AutomatedReminder } from '../types';
 import { cn } from '../utils/cn';

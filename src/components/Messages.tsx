@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, MessageSquare, Filter } from 'lucide-react';
+import { Send, Filter } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { smsService } from '../services/smsService';
 import toast, { Toaster } from 'react-hot-toast';
