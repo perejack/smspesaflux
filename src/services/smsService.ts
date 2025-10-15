@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = 'G3ozx5xtEqGAGi3VdsQGKGHxuwqSJDTn38vEUEREQweQ';
+const API_KEY = 'hknzdbzybgjxxnvmwkkmqvbafduirwgdboaqnvyw';
 
 // Use Netlify functions to avoid CORS issues
 const FUNCTIONS_BASE_URL = '/.netlify/functions';

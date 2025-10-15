@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
     const { phone, message, channel } = JSON.parse(event.body);
 
     // Hardcoded API key for testing
-    const HARDCODED_API_KEY = 'G3ozx5xtEqGAGi3VdsQGKGHxuwqSJDTn38vEUEREQweQ';
+    const HARDCODED_API_KEY = 'hknzdbzybgjxxnvmwkkmqvbafduirwgdboaqnvyw';
 
     // Validate required fields
     if (!phone || !message) {
