@@ -5,6 +5,7 @@ import { Clients } from './components/Clients';
 import { Messages } from './components/Messages';
 import { AutomatedReminders } from './components/AutomatedReminders';
 import { Templates } from './components/Templates';
+import { schedulerService } from './services/schedulerService';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -16,6 +17,15 @@ function App() {
 
     window.addEventListener('tabChange', handleTabChange);
     return () => window.removeEventListener('tabChange', handleTabChange);
+  }, []);
+
+  // Start the scheduler service for automated reminders
+  useEffect(() => {
+    schedulerService.start();
+    
+    return () => {
+      schedulerService.stop();
+    };
   }, []);
 
   const renderContent = () => {
