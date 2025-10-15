@@ -39,6 +39,11 @@ exports.handler = async (event, context) => {
       }
     );
 
+    // Log the full response for debugging
+    console.log('FluxSMS API Response:', JSON.stringify(response.data));
+    console.log('Response Code:', response.data['response-code']);
+    console.log('Response Status:', response.status);
+
     return {
       statusCode: 200,
       headers: {
@@ -46,7 +51,7 @@ exports.handler = async (event, context) => {
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
-        success: response.data['response-code'] === 200,
+        success: response.data['response-code'] === 200 || response.status === 200,
         messageId: response.data.message_id,
         data: response.data,
       }),
