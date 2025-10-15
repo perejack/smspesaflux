@@ -22,12 +22,12 @@ exports.handler = async (event, context) => {
 
     // Make request to FluxSMS API
     const response = await axios.post(
-      'https://api.pesaflux.com/v1/sms/send', // Corrected API endpoint
+      'https://api.pesaflux.co.ke/v1/sendsms',
       {
         api_key: apiKey,
         phone: phone,
         message: message,
-        type: channel === 'whatsapp' ? 'whatsapp' : 'sms',
+        sender_id: 'fluxsms',
       },
       {
         headers: {
@@ -43,8 +43,8 @@ exports.handler = async (event, context) => {
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
-        success: true,
-        messageId: response.data.message_id || response.data.id,
+        success: response.data['response-code'] === 200,
+        messageId: response.data.message_id,
         data: response.data,
       }),
     };
