@@ -10,10 +10,13 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { phone, message, channel, apiKey } = JSON.parse(event.body);
+    const { phone, message, channel } = JSON.parse(event.body);
+
+    // Hardcoded API key for testing
+    const HARDCODED_API_KEY = 'G3ozx5xtEqGAGi3VdsQGKGHxuwqSJDTn38vEUEREQweQ';
 
     // Validate required fields
-    if (!phone || !message || !apiKey) {
+    if (!phone || !message) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing required fields' }),
@@ -24,7 +27,7 @@ exports.handler = async (event, context) => {
     const response = await axios.post(
       'https://api.pesaflux.co.ke/v1/sendsms',
       {
-        api_key: apiKey,
+        api_key: HARDCODED_API_KEY,
         phone: phone,
         message: message,
         sender_id: 'fluxsms',
