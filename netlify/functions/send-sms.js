@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
 
     // Make request to FluxSMS API
     const response = await axios.post(
-      'https://api.pesaflux.co.ke/fluxsms/send',
+      'https://api.pesaflux.com/v1/sms/send', // Corrected API endpoint
       {
         api_key: apiKey,
         phone: phone,
