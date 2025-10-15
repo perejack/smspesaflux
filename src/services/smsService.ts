@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const API_KEY = 'G3ozx5xtEqGAGi3VdsQGKGHxuwqSJDTn38vEUEREQweQ';
-const API_BASE_URL = 'https://api.pesaflux.co.ke/fluxsms';
+
+// Use Netlify functions to avoid CORS issues
+const FUNCTIONS_BASE_URL = '/.netlify/functions';
 
 export interface SendSMSParams {
   phone: string;
@@ -17,11 +19,9 @@ export interface SendSMSResponse {
 
 class SMSService {
   private apiKey: string;
-  private baseUrl: string;
 
   constructor() {
     this.apiKey = API_KEY;
-    this.baseUrl = API_BASE_URL;
   }
 
   async sendSMS({ phone, message, channel = 'sms' }: SendSMSParams): Promise<SendSMSResponse> {
@@ -29,13 +29,14 @@ class SMSService {
       // Format phone number to international format
       const formattedPhone = this.formatPhoneNumber(phone);
 
+      // Use Netlify serverless function to proxy the request
       const response = await axios.post(
-        `${this.baseUrl}/send`,
+        `${FUNCTIONS_BASE_URL}/send-sms`,
         {
-          api_key: this.apiKey,
+          apiKey: this.apiKey,
           phone: formattedPhone,
           message: message,
-          type: channel === 'whatsapp' ? 'whatsapp' : 'sms',
+          channel: channel,
         },
         {
           headers: {
@@ -44,22 +45,22 @@ class SMSService {
         }
       );
 
-      if (response.data.success || response.status === 200) {
+      if (response.data.success) {
         return {
           success: true,
-          messageId: response.data.message_id || response.data.id,
+          messageId: response.data.messageId,
         };
       } else {
         return {
           success: false,
-          error: response.data.message || 'Failed to send message',
+          error: response.data.error || 'Failed to send message',
         };
       }
     } catch (error: any) {
       console.error('SMS Service Error:', error);
       return {
         success: false,
-        error: error.response?.data?.message || error.message || 'Failed to send message',
+        error: error.response?.data?.error || error.message || 'Failed to send message',
       };
     }
   }
@@ -89,8 +90,9 @@ class SMSService {
 
   async checkBalance(): Promise<{ balance: number; error?: string }> {
     try {
-      const response = await axios.get(`${this.baseUrl}/balance`, {
-        params: { api_key: this.apiKey },
+      // Use Netlify serverless function to proxy the request
+      const response = await axios.get(`${FUNCTIONS_BASE_URL}/check-balance`, {
+        params: { apiKey: this.apiKey },
       });
 
       return {
