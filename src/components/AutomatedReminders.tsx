@@ -6,7 +6,7 @@ import { cn } from '../utils/cn';
 import toast, { Toaster } from 'react-hot-toast';
 
 export const AutomatedReminders: React.FC = () => {
-  const { automatedReminders, addAutomatedReminder, updateAutomatedReminder, deleteAutomatedReminder, toggleReminder } = useStore();
+  const { automatedReminders, addAutomatedReminder, updateAutomatedReminder, deleteAutomatedReminder, toggleReminder, clients } = useStore();
   const [showModal, setShowModal] = useState(false);
   const [editingReminder, setEditingReminder] = useState<AutomatedReminder | null>(null);
   const [formData, setFormData] = useState({
@@ -15,6 +15,7 @@ export const AutomatedReminders: React.FC = () => {
     channel: 'sms' as 'sms' | 'whatsapp' | 'both',
     template: '',
     enabled: true,
+    selectedClients: [] as string[],
     scheduleType: 'immediate' as 'immediate' | 'scheduled' | 'recurring',
     time: '09:00',
     daysBeforeDue: 3,
@@ -30,6 +31,7 @@ export const AutomatedReminders: React.FC = () => {
       channel: formData.channel,
       template: formData.template,
       enabled: formData.enabled,
+      selectedClients: formData.selectedClients.length > 0 ? formData.selectedClients : undefined,
       schedule: {
         type: formData.scheduleType,
         time: formData.scheduleType !== 'immediate' ? formData.time : undefined,
@@ -56,6 +58,7 @@ export const AutomatedReminders: React.FC = () => {
       channel: 'sms',
       template: '',
       enabled: true,
+      selectedClients: [],
       scheduleType: 'immediate',
       time: '09:00',
       daysBeforeDue: 3,
@@ -73,6 +76,7 @@ export const AutomatedReminders: React.FC = () => {
       channel: reminder.channel,
       template: reminder.template,
       enabled: reminder.enabled,
+      selectedClients: reminder.selectedClients || [],
       scheduleType: reminder.schedule.type,
       time: reminder.schedule.time || '09:00',
       daysBeforeDue: reminder.schedule.daysBeforeDue || 3,
@@ -105,25 +109,25 @@ export const AutomatedReminders: React.FC = () => {
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in">
       <Toaster position="top-right" />
       
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Automated Reminders</h2>
-          <p className="text-gray-600">Set up automatic message scheduling for your clients</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">Automated Reminders</h2>
+          <p className="text-sm sm:text-base text-gray-600">Set up automatic message scheduling for your clients</p>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-primary flex items-center gap-2"
+          className="btn btn-primary flex items-center justify-center gap-2 w-full sm:w-auto"
         >
           <Plus size={20} />
-          Create Reminder
+          <span>Create Reminder</span>
         </button>
       </div>
 
       {/* Reminders Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {automatedReminders.map((reminder) => (
           <div
             key={reminder.id}
@@ -344,6 +348,63 @@ export const AutomatedReminders: React.FC = () => {
                   </div>
                 </div>
               )}
+
+              <div>
+                <label className="label">Select Recipients (Optional)</label>
+                <p className="text-xs text-gray-500 mb-2">Leave empty to send to all clients matching conditions</p>
+                <div className="border border-gray-300 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
+                  <label className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.selectedClients.length === clients.length && clients.length > 0}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFormData({ ...formData, selectedClients: clients.map(c => c.id) });
+                        } else {
+                          setFormData({ ...formData, selectedClients: [] });
+                        }
+                      }}
+                      className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Select All ({clients.length})</span>
+                  </label>
+                  <div className="border-t border-gray-200 pt-2">
+                    {clients.map((client) => (
+                      <label key={client.id} className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={formData.selectedClients.includes(client.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setFormData({ ...formData, selectedClients: [...formData.selectedClients, client.id] });
+                            } else {
+                              setFormData({ ...formData, selectedClients: formData.selectedClients.filter(id => id !== client.id) });
+                            }
+                          }}
+                          className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                        />
+                        <div className="flex-1">
+                          <span className="text-sm text-gray-900">{client.name}</span>
+                          <span className="text-xs text-gray-500 ml-2">{client.phone}</span>
+                        </div>
+                        <span className={cn(
+                          'text-xs px-2 py-0.5 rounded-full',
+                          client.status === 'active' && 'bg-green-100 text-green-700',
+                          client.status === 'inactive' && 'bg-gray-100 text-gray-700',
+                          client.status === 'overdue' && 'bg-red-100 text-red-700'
+                        )}>
+                          {client.status}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                {formData.selectedClients.length > 0 && (
+                  <p className="text-xs text-primary-600 mt-1">
+                    {formData.selectedClients.length} client{formData.selectedClients.length !== 1 ? 's' : ''} selected
+                  </p>
+                )}
+              </div>
 
               <div className="flex items-center gap-2">
                 <input

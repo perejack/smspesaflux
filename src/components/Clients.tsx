@@ -62,18 +62,18 @@ export const Clients: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Client Management</h2>
-          <p className="text-gray-600">Manage your client database</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">Client Management</h2>
+          <p className="text-sm sm:text-base text-gray-600">Manage your client database</p>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-primary flex items-center gap-2"
+          className="btn btn-primary flex items-center justify-center gap-2 w-full sm:w-auto"
         >
           <Plus size={20} />
-          Add Client
+          <span>Add Client</span>
         </button>
       </div>
 
@@ -92,7 +92,7 @@ export const Clients: React.FC = () => {
       </div>
 
       {/* Clients Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {filteredClients.map((client) => (
           <div key={client.id} className="card hover:shadow-lg transition-shadow duration-200">
             <div className="flex items-start justify-between mb-4">

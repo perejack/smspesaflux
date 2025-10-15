@@ -103,32 +103,37 @@ class SchedulerService {
     });
 
     for (const reminder of activeReminders) {
-      // Filter clients based on reminder conditions
-      let targetClients = clients;
+      // Use selected clients if specified, otherwise filter all clients
+      let targetClients = reminder.selectedClients && reminder.selectedClients.length > 0
+        ? clients.filter((c) => reminder.selectedClients!.includes(c.id))
+        : clients;
 
-      if (reminder.conditions) {
-        targetClients = clients.filter((client) => {
-          if (reminder.conditions!.minBalance && client.balance < reminder.conditions!.minBalance) {
-            return false;
-          }
-          if (reminder.conditions!.maxBalance && client.balance > reminder.conditions!.maxBalance) {
-            return false;
-          }
-          if (
-            reminder.conditions!.clientStatus &&
-            !reminder.conditions!.clientStatus.includes(client.status)
-          ) {
-            return false;
-          }
-          return true;
-        });
-      }
+      // Apply conditions only if no specific clients selected
+      if (!reminder.selectedClients || reminder.selectedClients.length === 0) {
+        if (reminder.conditions) {
+          targetClients = targetClients.filter((client) => {
+            if (reminder.conditions!.minBalance && client.balance < reminder.conditions!.minBalance) {
+              return false;
+            }
+            if (reminder.conditions!.maxBalance && client.balance > reminder.conditions!.maxBalance) {
+              return false;
+            }
+            if (
+              reminder.conditions!.clientStatus &&
+              !reminder.conditions!.clientStatus.includes(client.status)
+            ) {
+              return false;
+            }
+            return true;
+          });
+        }
 
-      // Filter by reminder type
-      if (reminder.type === 'dunning') {
-        targetClients = targetClients.filter((c) => c.status === 'overdue');
-      } else if (reminder.type === 'invoice') {
-        targetClients = targetClients.filter((c) => c.balance > 0);
+        // Filter by reminder type
+        if (reminder.type === 'dunning') {
+          targetClients = targetClients.filter((c) => c.status === 'overdue');
+        } else if (reminder.type === 'invoice') {
+          targetClients = targetClients.filter((c) => c.balance > 0);
+        }
       }
 
       // Send messages to target clients

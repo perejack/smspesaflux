@@ -114,15 +114,15 @@ export const Messages: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in">
       <Toaster position="top-right" />
       
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Send Messages</h2>
-        <p className="text-gray-600">Send SMS or WhatsApp messages to your clients</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">Send Messages</h2>
+        <p className="text-sm sm:text-base text-gray-600">Send SMS or WhatsApp messages to your clients</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Compose Message */}
         <div className="card">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Compose Message</h3>

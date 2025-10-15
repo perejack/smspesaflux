@@ -82,20 +82,20 @@ export const Templates: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in">
       <Toaster position="top-right" />
       
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Message Templates</h2>
-          <p className="text-gray-600">Create and manage reusable message templates</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">Message Templates</h2>
+          <p className="text-sm sm:text-base text-gray-600">Create and manage reusable message templates</p>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-primary flex items-center gap-2"
+          className="btn btn-primary flex items-center justify-center gap-2 w-full sm:w-auto"
         >
           <Plus size={20} />
-          Create Template
+          <span>Create Template</span>
         </button>
       </div>
 
@@ -116,7 +116,7 @@ export const Templates: React.FC = () => {
               {type} Templates ({typeTemplates.length})
             </h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {typeTemplates.map((template) => (
                 <div
                   key={template.id}

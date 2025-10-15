@@ -29,6 +29,7 @@ export interface AutomatedReminder {
   channel: 'sms' | 'whatsapp' | 'both';
   template: string;
   enabled: boolean;
+  selectedClients?: string[]; // Array of client IDs to send to
   schedule: {
     type: 'immediate' | 'scheduled' | 'recurring';
     time?: string; // HH:mm format

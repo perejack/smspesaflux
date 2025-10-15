@@ -11,14 +11,14 @@ export const Dashboard: React.FC = () => {
   const overdueClients = clients.filter(c => c.status === 'overdue').slice(0, 5);
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Dashboard Overview</h2>
-        <p className="text-gray-600">Monitor your business performance and client communications</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">Dashboard Overview</h2>
+        <p className="text-sm sm:text-base text-gray-600">Monitor your business performance and client communications</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         <StatCard
           title="Total Clients"
           value={stats.totalClients}
@@ -50,7 +50,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Recent Messages */}
         <div className="card">
           <div className="flex items-center justify-between mb-4">
@@ -122,7 +122,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white">
           <div className="flex items-center justify-between">
             <div>
